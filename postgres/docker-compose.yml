@@ -1,0 +1,29 @@
+version: '3.7'
+services:
+  postgres:
+    image: postgres
+    container_name: postgres
+    ports:
+    - 5432:5432
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: example
+    volumes:
+      - "./postgres/bk:/bk"
+      - "./postgres/data:/var/lib/postgresql/data"
+    networks: 
+      - backend
+  pgadmin4:
+    container_name: pgAdmin4
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: teste@teste.org
+      PGADMIN_DEFAULT_PASSWORD: 123
+    depends_on:
+      - postgres
+    ports:
+      - 80:80/tcp
+    networks:
+      - backend
+networks: 
+  backend:

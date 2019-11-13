@@ -1,0 +1,35 @@
+version: '3'
+services:
+  redis:
+    container_name: redis
+    hostname: redis
+    image: redis
+    ports:
+        - 6379:6379
+    #command: redis-server --requirepass Redis2019!
+    networks: 
+      custom_network:
+        ipv4_address: 172.50.0.3  
+
+  redis-commander:
+    container_name: redis-commander
+    hostname: redis-commander
+    image: rediscommander/redis-commander:latest
+    depends_on:
+      - redis
+    restart: always
+    environment:
+        - REDIS_HOSTS=172.50.0.3
+       # - REDIS_PASSWORD=Redis2019!
+    ports:
+        - 8081:8081
+    networks: 
+      custom_network:
+        ipv4_address: 172.50.0.2  
+networks:
+  custom_network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.50.0.0/24

@@ -11,8 +11,8 @@ services:
     volumes:
       - "./postgres/bk:/bk"
       - "./postgres/data:/var/lib/postgresql/data"
-    networks: 
-      - backend
+      -  "./scripts:/scripts"
+    network_mode: host
   pgadmin4:
     container_name: pgAdmin4
     image: dpage/pgadmin4
@@ -22,8 +22,6 @@ services:
     depends_on:
       - postgres
     ports:
-      - 80:80/tcp
-    networks:
-      - backend
-networks: 
-  backend:
+      - 32566:80/tcp
+    network_mode: host
+
